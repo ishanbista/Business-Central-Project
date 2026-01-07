@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Microsoft cloud sandbox",
+            "request": "launch",
+            "type": "al",
+            "environmentType": "Sandbox",
+            "environmentName": "w1",
+            "startupObjectId": 22,
+            "startupObjectType": "Page",
+            "breakOnError": "All",
+            "launchBrowser": true,
+            "enableLongRunningSqlStatements": true,
+            "enableSqlInformationDebugger": true,
+            "tenant": "3ffbb31f-048b-49a3-9f4c-df59dba36ae8"
+        }
+    ]
+}
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Microsoft cloud sandbox",
+//             "request": "launch",
+//             "type": "al",
+//             "environmentType": "Sandbox",
+//             "environmentName": "Surakshya",
+//             "startupObjectId": 22,
+//             "startupObjectType": "Page",
+//             "breakOnError": "All",
+//             "launchBrowser": true,
+//             "enableLongRunningSqlStatements": true,
+//             "enableSqlInformationDebugger": true,
+//             "tenant": "3ffbb31f-048b-49a3-9f4c-df59dba36ae8"
+//         }
+//     ]
+// }
