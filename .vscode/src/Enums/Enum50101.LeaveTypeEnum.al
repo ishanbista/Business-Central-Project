@@ -22,7 +22,11 @@ enum 50101 "Leave Type"
     {
         Caption = 'Unpaid';
     }
-    value(5; Other)
+    value(5; Special)
+    {
+        Caption = 'Special';
+    }
+    value(6; Other)
     {
         Caption = 'Other';
     }
