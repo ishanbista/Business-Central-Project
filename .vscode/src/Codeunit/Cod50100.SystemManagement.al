@@ -13,6 +13,8 @@ codeunit 50100 "System Management"
         VATEntry: Record "VAT Entry";
         PurchInvHeader: Record "Purch. Inv. Header";
         PurchInvLine: Record "Purch. Inv. Line";
+        PurchHeader: Record "Purchase Header";
+        PurchLine: Record "Purchase Line";
     begin
         VendorLegdEntry.Reset();
         VendorLegdEntry.SetRange("Document No.", DocumentNo);
@@ -59,6 +61,20 @@ codeunit 50100 "System Management"
                 PurchInvLine."Posting Date" := PostingDate;
                 PurchInvLine.Modify(true);
             until PurchInvLine.Next() = 0;
+
+        PurchHeader.Reset();
+        PurchHeader.SetRange("No.", DocumentNo);
+        if PurchHeader.FindFirst() then
+            PurchHeader."Posting Date" := PostingDate;
+        PurchHeader.Modify(true);
+
+        PurchLine.Reset();
+        PurchLine.SetRange("Document No.", DocumentNo);
+        if PurchLine.FindSet() then
+            repeat
+                PurchLine."FA Posting Date" := PostingDate;
+                PurchLine.Modify(true);
+            until PurchLine.Next() = 0;
 
         Message('Posting Date updated!');
     end;
