@@ -31,7 +31,9 @@ table 50110 "Student Exam Marks"
         field(11; "Subject Name"; Text[50])
         {
             Caption = 'Subject Name';
+
         }
+
         field(12; "Marks Obtained"; Decimal)
         {
             Caption = 'Marks';
