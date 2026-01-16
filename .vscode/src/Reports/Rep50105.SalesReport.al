@@ -9,7 +9,7 @@ report 50105 "Sales Report"
     {
         dataitem(SalesInvoiceLine; "Sales Invoice Line")
         {
-            column(No_; "No.")
+            column(ItemNo; "No.")
             {
 
             }
@@ -24,8 +24,13 @@ report 50105 "Sales Report"
 
             begin
                 Clear(OldPostingGroup);
-                if ItemRec.Get("No.") then
-                    OldPostingGroup := Format(ItemRec."Old Posting Group");
+                if SalesInvoiceLine.Type = SalesInvoiceLine.Type::Item then
+                    if ItemRec.Get("No.") then begin
+                        if ItemRec."Old Posting Group" = ItemRec."Old Posting Group"::" " then 
+                        OldPostingGroup:= '' else 
+                          OldPostingGroup := Format(ItemRec."Old Posting Group");
+                    end;
+
             end;
 
         }
@@ -38,6 +43,7 @@ report 50105 "Sales Report"
             {
                 group(GroupName)
                 {
+
                 }
             }
         }
@@ -52,4 +58,5 @@ report 50105 "Sales Report"
     var
         ItemRec: Record Item;
         OldPostingGroup: Text[50];
+
 }

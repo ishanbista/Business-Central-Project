@@ -4,7 +4,8 @@ codeunit 50100 "System Management"
     tabledata "Detailed Vendor Ledg. Entry" = RIMD,
     tabledata "VAT Entry" = RIMD,
     tabledata "Purch. Inv. Header" = RIMD,
-    tabledata "Purch. Inv. Line" = RIMD;
+    tabledata "Purch. Inv. Line" = RIMD,
+    tabledata "Sales Invoice Header" = RIMD;
     procedure UpdatePostingDate(var DocumentNo: Code[20]; PostingDate: Date)
     var
         VendorLegdEntry: Record "Vendor Ledger Entry";
@@ -93,5 +94,13 @@ codeunit 50100 "System Management"
                 Vendor.Modify(true);
             until Vendor.Next() = 0;
         Message('Vendors Updated!');
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnAfterInsertInvoiceHeader, '', false, false)]
+    local procedure "Sales-Post_OnAfterInsertInvoiceHeader"(var SalesHeader: Record "Sales Header"; var SalesInvHeader: Record "Sales Invoice Header")
+    begin
+        SalesInvHeader."Employee No." := SalesHeader."Employee No.";
+        SalesInvHeader."Employee Name" := SalesHeader."Employee Name";
+        SalesInvHeader.Modify(true);
     end;
 }
