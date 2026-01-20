@@ -12,6 +12,11 @@ pageextension 50106 "Posted Sales Inv Ext" extends "Posted Sales Invoice"
             {
                 ApplicationArea = ALl;
             }
+            field("Payment Service Set ID"; Rec."Payment Service Set ID")
+            {
+                ApplicationArea = All;
+            }
+
         }
     }
 }

@@ -29,7 +29,6 @@ report 50105 "Sales Report"
             var
                 myInt: Integer;
             begin
-
             end;
 
             trigger OnAfterGetRecord()
@@ -42,13 +41,12 @@ report 50105 "Sales Report"
                             OldPostingGroup := Format(ItemRec."Old Posting Group");
                     end;
             end;
+
             trigger OnPostDataItem()
             var
                 myInt: Integer;
             begin
-
             end;
-
         }
     }
     requestpage
@@ -103,5 +101,4 @@ report 50105 "Sales Report"
         OldPostingGroup: Text[50];
         StartDate: Date;
         EndDate: Date;
-
 }

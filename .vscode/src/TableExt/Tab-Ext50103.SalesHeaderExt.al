@@ -25,5 +25,6 @@ tableextension 50103 "Sales Header Ext" extends "Sales Header"
             TableRelation = Location.Code;
         }
 
+
     }
 }

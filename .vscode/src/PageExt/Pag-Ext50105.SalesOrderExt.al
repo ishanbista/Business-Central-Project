@@ -17,6 +17,12 @@ pageextension 50105 "Sales Order Ext" extends "Sales Order"
             {
                 ApplicationArea = All;
             }
+            field("Payment Service Set ID"; Rec."Payment Service Set ID")
+            {
+                ApplicationArea = All;
+            }
+
         }
+
     }
 }

@@ -15,5 +15,6 @@ tableextension 50100 "Sales Inv Ext" extends "Sales Invoice Header"
         {
             DataClassification = ToBeClassified;
         }
+
     }
 }
