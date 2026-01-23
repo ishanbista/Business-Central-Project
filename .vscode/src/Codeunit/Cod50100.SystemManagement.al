@@ -103,4 +103,57 @@ codeunit 50100 "System Management"
         SalesInvHeader."Employee Name" := SalesHeader."Employee Name";
         SalesInvHeader.Modify(true);
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnBeforePostSalesDoc, '', false, false)]
+    local procedure "Sales-Post_OnBeforePostSalesDoc"(var Sender: Codeunit "Sales-Post"; var SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; PreviewMode: Boolean; var HideProgressWindow: Boolean; var IsHandled: Boolean; var CalledBy: Integer)
+    var
+        SalesLine: Record "Sales Line";
+    begin
+        if SalesLine.FindSet() then
+            repeat
+                if SalesLine."Unit Price" = 0 then
+                    Error('Unit Price must not be 0!');
+            until SalesLine.Next() = 0;
+
+        if not SalesHeader."Sales Reviewed" then
+            Error('The customer %1 and document no. %2 is not allowed to post', SalesHeader."Bill-to Name", SalesHeader."No.");
+    end;
+
+    procedure Top5Sales(var TempBuffer: Record "Item Sales Buffer" temporary)
+    var
+        ValueEntry: Record "Value Entry";
+        FromDate: Date;
+        ToDate: Date;
+        Count: Integer;
+    begin
+        TempBuffer.DeleteAll();
+
+        FromDate := CalcDate('-6M', Today());
+        ToDate := Today();
+
+        ValueEntry.Reset();
+        ValueEntry.SetCurrentKey("Item No.", "Posting Date", "Item Ledger Entry Type");
+        ValueEntry.SetRange("Posting Date", FromDate, ToDate);
+        ValueEntry.SetRange("Item Ledger Entry Type", ValueEntry."Item Ledger Entry Type"::Sale);
+
+        if ValueEntry.FindSet() then
+            repeat
+                TempBuffer.Reset();
+                TempBuffer.SetRange("Item No.", ValueEntry."Item No.");
+
+                if TempBuffer.FindFirst() then begin
+                    TempBuffer."Quantity Sold" += Abs(ValueEntry."Invoiced Quantity");
+                    TempBuffer.Modify(true);
+                end else begin
+                    TempBuffer.Init();
+                    TempBuffer."Item No." := ValueEntry."Item No.";
+                    TempBuffer."Quantity Sold" := Abs(ValueEntry."Invoiced Quantity");
+                    TempBuffer.Insert(true);
+                end;
+            until ValueEntry.Next() = 0;
+
+        TempBuffer.SetCurrentKey("Quantity Sold");
+        TempBuffer.Ascending(false);
+
+    end;
 }

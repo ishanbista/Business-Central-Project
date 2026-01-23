@@ -21,6 +21,18 @@ pageextension 50105 "Sales Order Ext" extends "Sales Order"
             {
                 ApplicationArea = All;
             }
+            field("Sales Reviewed"; Rec."Sales Reviewed")
+            {
+                ApplicationArea = All;
+            }
+            field("Reviewed By"; Rec."Reviewed By")
+            {
+                ApplicationArea = All;
+            }
+            field("Reviewed DateTime"; Rec."Reviewed DateTime")
+            {
+                ApplicationArea = All;
+            }
 
         }
 

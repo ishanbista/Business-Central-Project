@@ -24,7 +24,25 @@ tableextension 50103 "Sales Header Ext" extends "Sales Header"
             DataClassification = ToBeClassified;
             TableRelation = Location.Code;
         }
-
-
+        field(50106; "Sales Reviewed"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                if "Sales Reviewed" then
+                    "Reviewed By" := UserId();
+                "Reviewed DateTime" := CurrentDateTime();
+            end;
+        }
+        field(50107; "Reviewed By"; Code[50])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
+        field(50108; "Reviewed DateTime"; DateTime)
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
+        }
     }
 }
