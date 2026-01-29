@@ -53,6 +53,17 @@ pageextension 50105 "Sales Order Ext" extends "Sales Order"
                     CreditCheck.CheckCredit(Rec);
                 end;
             }
+            action(ShowBalance)
+            {
+                Caption = 'Show Balance';
+                ApplicationArea = All;
+                trigger OnAction()
+                var
+                    SysMgt: Codeunit "System Management";
+                begin
+                    SysMgt.ShowBalance(Rec."Sell-to Customer No.");
+                end;
+            }
         }
     }
 }

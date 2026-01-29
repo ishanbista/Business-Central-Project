@@ -196,4 +196,12 @@ codeunit 50100 "System Management"
         TempBuffer.Ascending(false);
 
     end;
+
+    procedure ShowBalance(CustomerNo: Code[20])
+    var
+        Cust: Record Customer;
+    begin
+        Cust.Get(CustomerNo);
+        Message('The balance of Customer %1 is %2', CustomerNo, Cust.Balance);
+    end;
 }
