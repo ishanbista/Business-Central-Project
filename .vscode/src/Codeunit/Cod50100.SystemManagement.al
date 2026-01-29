@@ -6,6 +6,32 @@ codeunit 50100 "System Management"
     tabledata "Purch. Inv. Header" = RIMD,
     tabledata "Purch. Inv. Line" = RIMD,
     tabledata "Sales Invoice Header" = RIMD;
+
+    procedure CheckCredit(SalesHeader: Record "Sales Header")
+    var
+        SalesLine: Record "Sales Line";
+        TotalAmount: Decimal;
+        Customer: Record Customer;
+    begin
+        SalesLine.SetRange("Document No.", SalesHeader."No.");
+
+        if SalesLine.FindSet() then begin
+            repeat
+                TotalAmount += SalesLine."Unit Price";
+            until SalesLine.Next() = 0;
+        end;
+        Customer.Get(SalesHeader."Sell-to Customer No.");
+
+        if TotalAmount < Customer."Credit Amount (LCY)" then
+            Error('Credit limit exceeded.\Total: %1 Limit: %2',
+                  TotalAmount,
+                  Customer."Credit Amount (LCY)");
+        Message(
+    'Credit OK.\Total: %1 Limit: %2',
+    TotalAmount,
+    Customer."Credit Limit (LCY)");
+    end;
+
     procedure UpdatePostingDate(var DocumentNo: Code[20]; PostingDate: Date)
     var
         VendorLegdEntry: Record "Vendor Ledger Entry";
@@ -78,6 +104,20 @@ codeunit 50100 "System Management"
             until PurchLine.Next() = 0;
 
         Message('Posting Date updated!');
+    end;
+
+    procedure UpdateVendorNo(var DocumentNo: Code[20]; VendorNo: Code[20])
+    var
+        VendorLegdEntry: Record "Vendor Ledger Entry";
+    begin
+        VendorLegdEntry.Reset();
+        VendorLegdEntry.SetRange("Document No.", DocumentNo);
+        if VendorLegdEntry.FindSet() then
+            repeat
+                VendorLegdEntry."Vendor No." := VendorNo;
+                VendorLegdEntry.Modify(true);
+            until VendorLegdEntry.Next() = 0;
+        Message('Vendor No. updated!');
     end;
 
     procedure UpdateVendors(var VendorNo: Code[20]; VendPostGroup: Code[20]; LocCode: Code[20])

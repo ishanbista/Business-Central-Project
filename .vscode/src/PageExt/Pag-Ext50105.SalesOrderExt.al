@@ -37,4 +37,22 @@ pageextension 50105 "Sales Order Ext" extends "Sales Order"
         }
 
     }
+    actions
+    {
+        addlast(processing)
+        {
+            action(CheckCredit)
+            {
+                Caption = 'Check Credit Limit';
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    CreditCheck: Codeunit "System Management";
+                begin
+                    CreditCheck.CheckCredit(Rec);
+                end;
+            }
+        }
+    }
 }

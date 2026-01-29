@@ -44,5 +44,25 @@ tableextension 50103 "Sales Header Ext" extends "Sales Header"
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(50109; "Released Date"; Date)
+        {
+            Caption = 'Released Date';
+            Editable = false;
+            DataClassification = ToBeClassified;
+            trigger OnValidate()
+            begin
+                "Released Time" := DT2Time(CurrentDateTime);
+                "Invoice Time" := DT2Time(CurrentDateTime);
+            end;
+        }
+        field(50110; "Released Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(50111; "Invoice Time"; Time)
+        {
+            DataClassification = ToBeClassified;
+        }
+
     }
 }

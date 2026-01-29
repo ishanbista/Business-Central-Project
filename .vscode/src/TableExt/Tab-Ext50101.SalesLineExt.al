@@ -7,7 +7,6 @@ tableextension 50101 "Sales Line Ext" extends "Sales Line"
             Caption = 'Model Version No.';
             DataClassification = ToBeClassified;
             TableRelation = "Model Version";
-
         }
         field(50101; "Chasis No."; Code[20])
         {

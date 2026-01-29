@@ -1,7 +1,9 @@
 pageextension 50102 "Sales Line Ext" extends "Sales Order Subform"
 {
+
     layout
     {
+
         addafter("No.")
         {
             field("Model Version No."; Rec."Model Version No.")
@@ -35,5 +37,23 @@ pageextension 50102 "Sales Line Ext" extends "Sales Order Subform"
 
             }
         }
+
     }
+    actions
+    {
+        modify(GetPrices)
+        {
+            trigger OnAfterAction()
+            begin
+                GetUnitCost();
+            end;
+        }
+    }
+    local procedure GetUnitCost()
+    var
+        Item: Record Item;
+    begin
+        Item.Get(Rec."No.");
+        Rec.Validate("Unit Price", Item."Unit Cost");
+    end;
 }
